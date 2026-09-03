@@ -284,6 +284,6 @@ export function aiReply(question: string) {
   const hit = Object.keys(aiAnswers).find((k) =>
     question.toLowerCase().includes(k.toLowerCase().slice(0, 12)),
   );
-  if (hit) return aiAnswers[hit];
+  if (hit) return aiAnswers[hit]!;
   return `Aadaa AI: great question about “${question}”. In Oromo tradition, knowledge travels through the Gadaa councils. Here is the short version — explore the Heritage module for the full story, and I will quiz you on it afterwards in Afan Oromo.`;
 }
