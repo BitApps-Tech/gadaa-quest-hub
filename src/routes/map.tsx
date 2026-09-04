@@ -1,159 +1,224 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { MapPin, Sparkles } from "lucide-react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useMemo, useState, useEffect } from "react";
+import { ExternalLink, MapPin, Search, Sparkles } from "lucide-react";
 import { Page } from "@/components/gadaa/Page";
 import { destinations } from "@/lib/gadaa-data";
+import { fill, useI18n } from "@/lib/i18n";
+import {
+  mapSiteTypes,
+  mapSites,
+  oromiaTouristMap,
+  quizSiteId,
+  touristMapEmbed,
+  type MapSite,
+  type MapSiteType,
+} from "@/lib/oromia-map";
 
 export const Route = createFileRoute("/map")({
   head: () => ({
-    meta: [
-      { title: "Oromia Tourism Exploration Map — Gadaa Quest" },
-      {
-        name: "description",
-        content:
-          "Explore Sof Omar Caves, Bishoftu crater lakes, Bale Mountains and more with click-to-play location quizzes.",
-      },
-      { property: "og:title", content: "Oromia Tourism Exploration Map — Gadaa Quest" },
-      {
-        property: "og:description",
-        content: "An interactive map of Oromia's iconic destinations with location quizzes.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
+    meta: [{ title: "Map — Gadaa Quest" }],
   }),
-  component: TourismMap;
+  validateSearch: (search: Record<string, unknown>): { site?: string } => {
+    const site = search["site"];
+    if (typeof site === "string" && site.length > 0) {
+      return { site };
+    }
+    return {};
+  },
+  component: TourismMap,
 });
 
+function siteMeta(site: MapSite) {
+  const zone = site.zone.replace(/\s+/g, " ").trim();
+  const woreda = site.woreda.replace(/\s+/g, " ").trim();
+  const zoneOk = zone.length > 1 && zone.length < 28 && !/Opening|of the|Regional State/i.test(zone);
+  const woredaOk = woreda.length > 1 && woreda.length < 36 && !/Opening|Information/i.test(woreda);
+  return [zoneOk ? zone : "", woredaOk ? woreda : ""].filter(Boolean).join(" · ");
+}
+
 function TourismMap() {
-  const [activeId, setActiveId] = useState(destinations[0]!.id);
+  const { t } = useI18n();
+  const navigate = useNavigate();
+  const { site: siteParam } = Route.useSearch();
+  const [query, setQuery] = useState("");
+  const [type, setType] = useState<MapSiteType | "all">("all");
+  const [activeId, setActiveId] = useState<string | null>(siteParam ?? null);
   const [choice, setChoice] = useState<number | null>(null);
-  const active = destinations.find((d) => d.id === activeId)!;
+
+  useEffect(() => {
+    if (siteParam) {
+      setActiveId(siteParam);
+      setChoice(null);
+    }
+  }, [siteParam]);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return mapSites.filter((site) => {
+      if (type !== "all" && site.type !== type) return false;
+      if (!q) return true;
+      return [site.name, site.zone, site.woreda, site.summary, site.type].some((v) =>
+        v.toLowerCase().includes(q),
+      );
+    });
+  }, [query, type]);
+
+  const active = mapSites.find((s) => s.id === activeId) ?? null;
+  const quizId = active ? quizSiteId(active.name) : null;
+  const quizDest = quizId ? destinations.find((d) => d.id === quizId) : undefined;
+  const quizCopy = quizId ? t.map.places[quizId] : undefined;
+  const embedSrc = touristMapEmbed(active?.lat, active?.lng, active ? 11 : 7);
+
+  function selectSite(id: string) {
+    setActiveId(id);
+    setChoice(null);
+    void navigate({ to: "/map", search: { site: id }, replace: true });
+  }
 
   return (
-    <Page
-      eyebrow="Module 02"
-      title="Oromia Tourism Exploration Map"
-      intro="Tap a beacon on the map to preview the destination and play its location quiz. Correct answers unlock travel XP toward reward vouchers."
-    >
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
-        <div
-          className="glass shadow-panel relative aspect-[4/3] w-full overflow-hidden rounded-3xl"
-          style={{ backgroundImage: "var(--gradient-hero)" }}
-        >
-          <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full">
-            <defs>
-              <pattern id="grid" width="8" height="8" patternUnits="userSpaceOnUse">
-                <path
-                  d="M8 0H0V8"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="0.2"
-                  className="text-foreground/10"
-                />
-              </pattern>
-            </defs>
-            <rect width="100" height="100" fill="url(#grid)" />
-            <path
-              d="M16 34C24 22 40 16 54 20c12 3 18 2 26 9 7 6 6 18 1 27-6 11-19 22-34 24-14 2-27-5-33-16-6-12-2-22 2-30z"
-              fill="color-mix(in oklab, var(--primary) 16%, transparent)"
-              stroke="color-mix(in oklab, var(--gold) 55%, transparent)"
-              strokeWidth="0.6"
+    <Page eyebrow={t.map.eyebrow} title={t.map.title} intro={t.map.intro} source={t.map.source}>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(20rem,1fr)]">
+        <div className="space-y-3">
+          <div className="glass shadow-panel relative aspect-[4/3] w-full overflow-hidden rounded-3xl lg:aspect-auto lg:min-h-[40rem]">
+            <iframe
+              key={embedSrc}
+              title={oromiaTouristMap.title}
+              src={embedSrc}
+              className="h-full min-h-[22rem] w-full border-0 lg:min-h-[40rem]"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
             />
-          </svg>
-
-          {destinations.map((d) => (
-            <button
-              key={d.id}
-              onClick={() => {
-                setActiveId(d.id);
-                setChoice(null);
-              }}
-              style={{ left: `${d.x}%`, top: `${d.y}%` }}
-              className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full p-1 transition-transform hover:scale-110 ${
-                d.id === activeId ? "scale-110" : ""
-              }`}
-              aria-label={d.name}
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-2 px-1">
+            <p className="text-xs text-muted-foreground">{t.map.panHint}</p>
+            <a
+              href={oromiaTouristMap.viewerUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-gold hover:underline"
             >
-              <span
-                className={`grid h-9 w-9 place-items-center rounded-full ${
-                  d.id === activeId
-                    ? "shadow-glow bg-primary text-primary-foreground"
-                    : "glass text-gold"
-                }`}
-              >
-                <MapPin className="h-4 w-4" />
-              </span>
-              <span className="glass mt-1 block rounded-md px-2 py-0.5 text-[10px] whitespace-nowrap">
-                {d.name}
-              </span>
-            </button>
-          ))}
+              {t.map.openFullMap} <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+          </div>
         </div>
 
-        <aside className="glass rounded-3xl p-6">
-          <p className="text-xs tracking-widest text-gold uppercase">{active.zone}</p>
-          <h2 className="mt-1 text-2xl font-bold">{active.name}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{active.tag}</p>
-
-          <div className="mt-6 rounded-2xl bg-secondary/60 p-4">
-            <p className="text-sm font-semibold">{active.quiz}</p>
-            <div className="mt-3 grid gap-2">
-              {active.options.map((o, i) => {
-                const state =
-                  choice === null
-                    ? "idle"
-                    : i === active.answer
-                      ? "right"
-                      : i === choice
-                        ? "wrong"
-                        : "idle";
-                return (
-                  <button
-                    key={o}
-                    onClick={() => setChoice(i)}
-                    className={`rounded-xl px-3.5 py-2.5 text-left text-sm transition-colors ${
-                      state === "right"
-                        ? "bg-gold/20 text-gold ring-1 ring-gold/60"
-                        : state === "wrong"
-                          ? "bg-primary/20 ring-1 ring-primary/60"
-                          : "bg-background/60 hover:bg-accent"
-                    }`}
-                  >
-                    {o}
-                  </button>
-                );
-              })}
-            </div>
-            {choice !== null && (
-              <p className="animate-rise mt-3 flex items-center gap-1.5 text-xs font-semibold text-gold">
-                <Sparkles className="h-3.5 w-3.5" />
-                {choice === active.answer
-                  ? `Correct! +${active.xp} XP added to your travel track.`
-                  : "Not quite — revisit the destination story and try again."}
-              </p>
-            )}
-          </div>
-
-          <div className="mt-6 grid gap-2">
-            {destinations.map((d) => (
+        <aside className="glass flex max-h-[40rem] flex-col overflow-hidden rounded-3xl">
+          <div className="border-b border-border p-4">
+            <label className="relative block">
+              <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={t.map.search}
+                className="w-full rounded-xl bg-secondary py-2.5 pr-3 pl-10 text-sm outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/60"
+              />
+            </label>
+            <div className="mt-3 flex flex-wrap gap-1.5">
               <button
-                key={d.id}
-                onClick={() => {
-                  setActiveId(d.id);
-                  setChoice(null);
-                }}
-                className={`flex items-center justify-between rounded-xl px-3 py-2 text-left text-sm transition-colors ${
-                  d.id === activeId ? "bg-primary/15 text-foreground" : "hover:bg-accent"
+                onClick={() => setType("all")}
+                className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+                  type === "all" ? "bg-primary text-primary-foreground" : "bg-secondary hover:bg-accent"
                 }`}
               >
-                <span className="truncate">{d.name}</span>
-                <span className="shrink-0 text-[11px] text-gold">+{d.xp} XP</span>
+                {t.map.allTypes}
               </button>
-            ))}
+              {mapSiteTypes.map((id) => (
+                <button
+                  key={id}
+                  onClick={() => setType(id)}
+                  className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+                    type === id ? "bg-primary text-primary-foreground" : "bg-secondary hover:bg-accent"
+                  }`}
+                >
+                  {t.map.types[id] ?? id}
+                </button>
+              ))}
+            </div>
+            <p className="mt-2 text-[11px] font-semibold tracking-wide text-gold uppercase">
+              {fill(t.map.sitesCount, { n: filtered.length })}
+            </p>
+          </div>
+
+          <div className="min-h-0 flex-1 overflow-y-auto p-2">
+            {filtered.length === 0 ? (
+              <p className="px-3 py-8 text-center text-sm text-muted-foreground">{t.map.noResults}</p>
+            ) : (
+              filtered.map((site) => {
+                const meta = siteMeta(site);
+                return (
+                  <button
+                    key={site.id}
+                    onClick={() => selectSite(site.id)}
+                    className={`flex w-full items-start gap-2 rounded-xl px-3 py-2.5 text-left transition-colors ${
+                      site.id === activeId ? "bg-primary/15" : "hover:bg-accent"
+                    }`}
+                  >
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-semibold">{site.name}</span>
+                      <span className="block truncate text-[11px] text-muted-foreground">
+                        {t.map.types[site.type] ?? site.type}
+                        {meta ? ` · ${meta}` : ""}
+                      </span>
+                    </span>
+                  </button>
+                );
+              })
+            )}
           </div>
         </aside>
       </div>
+
+      {active && (
+        <section className="glass rounded-3xl p-6">
+          <p className="text-xs tracking-widest text-gold uppercase">
+            {t.map.types[active.type] ?? active.type}
+            {siteMeta(active) ? ` · ${siteMeta(active)}` : ""}
+          </p>
+          <h2 className="mt-1 text-2xl font-bold">{active.name}</h2>
+          {active.summary && <p className="mt-2 max-w-3xl text-sm text-muted-foreground">{active.summary}</p>}
+
+          {quizCopy && quizDest && (
+            <div className="mt-6 max-w-xl rounded-2xl bg-secondary/60 p-4">
+              <p className="text-sm font-semibold">{quizCopy.quiz}</p>
+              <div className="mt-3 grid gap-2">
+                {quizCopy.options.map((o, i) => {
+                  const state =
+                    choice === null
+                      ? "idle"
+                      : i === quizDest.answer
+                        ? "right"
+                        : i === choice
+                          ? "wrong"
+                          : "idle";
+                  return (
+                    <button
+                      key={o}
+                      onClick={() => setChoice(i)}
+                      className={`rounded-xl px-3.5 py-2.5 text-left text-sm transition-colors ${
+                        state === "right"
+                          ? "bg-gold/20 text-gold ring-1 ring-gold/60"
+                          : state === "wrong"
+                            ? "bg-primary/20 ring-1 ring-primary/60"
+                            : "bg-background/60 hover:bg-accent"
+                      }`}
+                    >
+                      {o}
+                    </button>
+                  );
+                })}
+              </div>
+              {choice !== null && (
+                <p className="animate-rise mt-3 flex items-center gap-1.5 text-xs font-semibold text-gold">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  {choice === quizDest.answer ? fill(t.map.correct, { xp: quizDest.xp }) : t.map.wrong}
+                </p>
+              )}
+            </div>
+          )}
+        </section>
+      )}
     </Page>
   );
 }

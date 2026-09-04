@@ -3,29 +3,28 @@ import { useState } from "react";
 import { Check, RotateCcw, Sparkles } from "lucide-react";
 import { Page } from "@/components/gadaa/Page";
 import { puzzles, trivia } from "@/lib/gadaa-data";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/quests")({
   head: () => ({
-    meta: [
-      { title: "Afan Oromo Vocabulary Puzzles — Gadaa Quest" },
-      {
-        name: "description",
-        content:
-          "Build Afan Oromo words, answer daily culture trivia and earn XP in the Gadaa Quest vocabulary module.",
-      },
-      { property: "og:title", content: "Afan Oromo Vocabulary Puzzles — Gadaa Quest" },
-      {
-        property: "og:description",
-        content: "Word-builder cards and daily trivia to grow your Afan Oromo.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
+    meta: [{ title: "Quests — Gadaa Quest" }],
   }),
   component: Quests,
 });
 
-function WordBuilder({ p }: { p: (typeof puzzles)[number] }) {
+function WordBuilder({
+  p,
+  prompt,
+  tapTiles,
+  solvedLabel,
+  resetLabel,
+}: {
+  p: (typeof puzzles)[number];
+  prompt: string;
+  tapTiles: string;
+  solvedLabel: string;
+  resetLabel: string;
+}) {
   const [picked, setPicked] = useState<string[]>([]);
   const built = picked.join(p.scrambled.some((s) => s.length > 4) ? " " : "");
   const solved = built.replace(/\s+/g, "") === p.answer.replace(/\s+/g, "");
@@ -33,13 +32,13 @@ function WordBuilder({ p }: { p: (typeof puzzles)[number] }) {
 
   return (
     <div className="glass hover-lift rounded-2xl p-5">
-      <p className="text-sm text-muted-foreground">{p.prompt}</p>
+      <p className="text-sm text-muted-foreground">{prompt}</p>
       <div
         className={`mt-4 min-h-12 rounded-xl border border-dashed px-4 py-3 font-display text-lg font-bold tracking-wide ${
           solved ? "border-gold/60 text-gold" : "border-border"
         }`}
       >
-        {built || <span className="text-sm text-muted-foreground">Tap the tiles…</span>}
+        {built || <span className="text-sm text-muted-foreground">{tapTiles}</span>}
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
         {pool.map((s) => (
@@ -58,14 +57,14 @@ function WordBuilder({ p }: { p: (typeof puzzles)[number] }) {
         </span>
         {solved ? (
           <span className="flex items-center gap-1.5 text-xs font-semibold text-gold">
-            <Check className="h-4 w-4" /> Solved — galatoomaa!
+            <Check className="h-4 w-4" /> {solvedLabel}
           </span>
         ) : (
           <button
             onClick={() => setPicked([])}
             className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground"
           >
-            <RotateCcw className="h-3.5 w-3.5" /> Reset
+            <RotateCcw className="h-3.5 w-3.5" /> {resetLabel}
           </button>
         )}
       </div>
@@ -74,39 +73,56 @@ function WordBuilder({ p }: { p: (typeof puzzles)[number] }) {
 }
 
 function Trivia() {
+  const { t } = useI18n();
   const [answers, setAnswers] = useState<Record<number, number>>({});
+  const categories = [...new Set(t.quests.triviaItems.map((item) => item.category))];
 
   return (
-    <div className="grid gap-5 lg:grid-cols-3">
-      {trivia.map((t, i) => {
-        const chosen = answers[i];
+    <div className="space-y-8">
+      {categories.map((category) => {
+        const items = t.quests.triviaItems
+          .map((item, i) => ({ item, i }))
+          .filter(({ item }) => item.category === category);
         return (
-          <div key={t.question} className="glass rounded-2xl p-5">
-            <p className="font-display text-sm font-bold">{t.question}</p>
-            <div className="mt-4 grid gap-2">
-              {t.options.map((o, oi) => {
-                const state =
-                  chosen === undefined
-                    ? "idle"
-                    : oi === t.answer
-                      ? "right"
-                      : oi === chosen
-                        ? "wrong"
-                        : "idle";
+          <div key={category}>
+            <h3 className="mb-4 text-xs font-semibold tracking-[0.16em] text-gold uppercase">
+              {category}
+            </h3>
+            <div className="grid gap-5 lg:grid-cols-3">
+              {items.map(({ item, i }) => {
+                const chosen = answers[i];
+                const answer = trivia[i]?.answer;
                 return (
-                  <button
-                    key={o}
-                    onClick={() => setAnswers((a) => ({ ...a, [i]: oi }))}
-                    className={`rounded-xl px-3.5 py-2.5 text-left text-sm transition-colors ${
-                      state === "right"
-                        ? "bg-gold/20 text-gold ring-1 ring-gold/60"
-                        : state === "wrong"
-                          ? "bg-primary/20 text-foreground ring-1 ring-primary/60"
-                          : "bg-secondary hover:bg-accent"
-                    }`}
-                  >
-                    {o}
-                  </button>
+                  <div key={item.question} className="glass rounded-2xl p-5">
+                    <p className="font-display text-sm font-bold">{item.question}</p>
+                    <div className="mt-4 grid gap-2">
+                      {item.options.map((o, oi) => {
+                        const state =
+                          chosen === undefined
+                            ? "idle"
+                            : oi === answer
+                              ? "right"
+                              : oi === chosen
+                                ? "wrong"
+                                : "idle";
+                        return (
+                          <button
+                            key={o}
+                            onClick={() => setAnswers((a) => ({ ...a, [i]: oi }))}
+                            className={`rounded-xl px-3.5 py-2.5 text-left text-sm transition-colors ${
+                              state === "right"
+                                ? "bg-gold/20 text-gold ring-1 ring-gold/60"
+                                : state === "wrong"
+                                  ? "bg-primary/20 text-foreground ring-1 ring-primary/60"
+                                  : "bg-secondary hover:bg-accent"
+                            }`}
+                          >
+                            {o}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 );
               })}
             </div>
@@ -118,23 +134,28 @@ function Trivia() {
 }
 
 function Quests() {
+  const { t } = useI18n();
+
   return (
-    <Page
-      eyebrow="Module 01"
-      title="Afan Oromo Vocabulary Puzzles"
-      intro="Assemble words tile by tile, then test your culture knowledge with today's trivia round. Every solved card feeds your XP and daily streak."
-    >
+    <Page eyebrow={t.quests.eyebrow} title={t.quests.title} intro={t.quests.intro} source={t.quests.source}>
       <section>
-        <h2 className="text-xl font-bold">Word builder cards</h2>
+        <h2 className="text-xl font-bold">{t.quests.wordBuilder}</h2>
         <div className="mt-5 grid gap-5 md:grid-cols-2">
           {puzzles.map((p) => (
-            <WordBuilder key={p.answer} p={p} />
+            <WordBuilder
+              key={p.id}
+              p={p}
+              prompt={t.quests.puzzles[p.id] ?? p.id}
+              tapTiles={t.quests.tapTiles}
+              solvedLabel={t.quests.solved}
+              resetLabel={t.quests.reset}
+            />
           ))}
         </div>
       </section>
 
       <section>
-        <h2 className="text-xl font-bold">Daily trivia</h2>
+        <h2 className="text-xl font-bold">{t.quests.trivia}</h2>
         <div className="mt-5">
           <Trivia />
         </div>

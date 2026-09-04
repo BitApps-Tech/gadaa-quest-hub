@@ -1,14 +1,17 @@
 import type { ReactNode } from "react";
+import { octbSourceUrl } from "@/lib/gadaa-data";
 
 export function Page({
   eyebrow,
   title,
   intro,
+  source,
   children,
 }: {
   eyebrow: string;
   title: string;
   intro: string;
+  source?: string;
   children: ReactNode;
 }) {
   return (
@@ -18,6 +21,19 @@ export function Page({
       </p>
       <h1 className="mt-2 text-3xl font-bold sm:text-4xl">{title}</h1>
       <p className="mt-3 max-w-2xl text-sm text-muted-foreground sm:text-base">{intro}</p>
+      {source && (
+        <p className="mt-2 max-w-2xl text-xs text-muted-foreground">
+          {source}{" "}
+          <a
+            href={octbSourceUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium text-gold underline-offset-2 hover:underline"
+          >
+            oromiatourism.gov.et
+          </a>
+        </p>
+      )}
       <div className="mt-8 space-y-8">{children}</div>
     </main>
   );
