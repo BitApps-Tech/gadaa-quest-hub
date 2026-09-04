@@ -28,7 +28,7 @@ export const en: Messages = {
       title: "Gadaa Quest",
       subtitle: "Sign in with your phone number to continue your journey through Oromia.",
       phone: "Phone number",
-      phoneHint: "Ethiopian mobile — 09 or 07, or +251.",
+      phoneHint: "Ethiopian mobile — 09 or +251.",
       password: "Password",
       passwordPlaceholder: "Enter your password",
       showPassword: "Show password",

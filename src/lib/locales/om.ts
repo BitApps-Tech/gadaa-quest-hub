@@ -28,7 +28,7 @@ export const om: Messages = {
       title: "Gadaa Quest",
       subtitle: "Imala keessan Oromiyaa keessatti itti fufuuf lakkoofsa bilbilaa keessaniin seenaa.",
       phone: "Lakkoofsa bilbilaa",
-      phoneHint: "Bilbila Itoophiyaa — 09 ykn 07, ykn +251.",
+      phoneHint: "Bilbila Itoophiyaa — 09 ykn +251.",
       password: "Jecha icciitii",
       passwordPlaceholder: "Jecha icciitii galchaa",
       showPassword: "Jecha icciitii agarsiisi",
