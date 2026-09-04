@@ -33,7 +33,7 @@ export const progressTracks = [
 
 export const progressBadges = [
   { id: "Word Builder", earned: true },
-  { id: "Oda Explorer", earned: true },
+  { id: "Odaa Explorer", earned: true },
   { id: "Lake Walker", earned: true },
   { id: "Trail Scout", earned: true },
   { id: "Storyteller", earned: true },
@@ -83,7 +83,7 @@ export const leaderboard = [
   { rank: 4, name: "Meti Abdi", region: "Finfinnee", xp: 3870, level: 10, badge: "Irreechaa Guide" },
   { rank: 5, name: "Gadisa Ifa", region: "Bishoftu", xp: 3540, level: 10, badge: "Lake Walker" },
   { rank: 6, name: "Sifan Roba", region: "Adama", xp: 3320, level: 9, badge: "Bale Ranger" },
-  { rank: 7, name: "Caalaa Bultum", region: "Bishoftu", xp: 1302, level: 5, badge: "Oda Explorer" },
+  { rank: 7, name: "Caalaa Bultum", region: "Bishoftu", xp: 1302, level: 5, badge: "Odaa Explorer" },
   { rank: 8, name: "Ayantu Kebede", region: "Jimma", xp: 1240, level: 5, badge: "Word Builder" },
   { rank: 9, name: "Tolasa Nagawo", region: "Finfinnee", xp: 1180, level: 4, badge: "Storyteller" },
   { rank: 10, name: "Kena Wako", region: "Bishoftu", xp: 1105, level: 4, badge: "Trail Scout" },

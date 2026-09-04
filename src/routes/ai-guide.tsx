@@ -5,7 +5,7 @@ import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/ai-guide")({
   head: () => ({
-    meta: [{ title: "Aadaa AI — Oda Play" }],
+    meta: [{ title: "Aadaa AI — Odaa Play" }],
   }),
   component: AiGuide,
 });

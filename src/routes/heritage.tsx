@@ -15,7 +15,7 @@ import { mapSites, type MapSite } from "@/lib/oromia-map";
 
 export const Route = createFileRoute("/heritage")({
   head: () => ({
-    meta: [{ title: "Heritage — Oda Play" }],
+    meta: [{ title: "Heritage — Odaa Play" }],
   }),
   component: Heritage,
 });

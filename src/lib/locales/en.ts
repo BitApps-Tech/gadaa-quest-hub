@@ -2,9 +2,9 @@ import type { Messages } from "./types";
 
 export const en: Messages = {
     brand: {
-      name: "Oda Play",
+      name: "Odaa Play",
       bureau: "Oromia Culture & Tourism Bureau",
-      opening: "Opening Oda Play…",
+      opening: "Opening Odaa Play…",
     },
     nav: {
       dashboard: "Dashboard",
@@ -25,7 +25,7 @@ export const en: Messages = {
       phone: "Phone",
     },
     login: {
-      title: "Oda Play",
+      title: "Odaa Play",
       subtitle: "Sign in with your phone number to continue your journey through Oromia.",
       phone: "Phone number",
       phoneHint: "Ethiopian mobile — 09 or +251.",
@@ -70,7 +70,7 @@ export const en: Messages = {
       modulesIntro: "Three tracks drawn from the Oromia Culture and Tourism Bureau.",
       heritageLibrary: "Heritage library",
       source: "Content follows the official bureau site",
-      playerTitle: "Oda Explorer",
+      playerTitle: "Odaa Explorer",
       stats: {
         streak: { label: "Daily streak", value: "12 days", hint: "Best: 21 days" },
         puzzles: { label: "Vocabulary puzzles", value: "47", hint: "+3 today" },
@@ -98,7 +98,7 @@ export const en: Messages = {
     progress: {
       eyebrow: "Account",
       title: "My progress",
-      intro: "Your level, streak, tracks and badges across Oda Play.",
+      intro: "Your level, streak, tracks and badges across Odaa Play.",
       region: "Region",
       tracks: "Learning tracks",
       badges: "Badge collection",
@@ -320,7 +320,7 @@ export const en: Messages = {
         "Irreechaa Guide": "Irreechaa Guide",
         "Lake Walker": "Lake Walker",
         "Bale Ranger": "Bale Ranger",
-        "Oda Explorer": "Oda Explorer",
+        "Odaa Explorer": "Odaa Explorer",
         "Word Builder": "Word Builder",
         Storyteller: "Storyteller",
         "Trail Scout": "Trail Scout",

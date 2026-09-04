@@ -2,9 +2,9 @@ import type { Messages } from "./types";
 
 export const om: Messages = {
     brand: {
-      name: "Oda Play",
+      name: "Odaa Play",
       bureau: "Biiroo Aadaa fi Tursizimii Oromiyaa",
-      opening: "Oda Play banamaa jira…",
+      opening: "Odaa Play banamaa jira…",
     },
     nav: {
       dashboard: "Gabatee",
@@ -25,7 +25,7 @@ export const om: Messages = {
       phone: "Bilbila",
     },
     login: {
-      title: "Oda Play",
+      title: "Odaa Play",
       subtitle: "Imala keessan Oromiyaa keessatti itti fufuuf lakkoofsa bilbilaa keessaniin seenaa.",
       phone: "Lakkoofsa bilbilaa",
       phoneHint: "Bilbila Itoophiyaa — 09 ykn +251.",
@@ -98,7 +98,7 @@ export const om: Messages = {
     progress: {
       eyebrow: "Akkaawuntii",
       title: "Guddina koo",
-      intro: "Sadarkaa, walitti fufiinsa, karaalee fi baajiiwwan keessan Oda Play keessatti.",
+      intro: "Sadarkaa, walitti fufiinsa, karaalee fi baajiiwwan keessan Odaa Play keessatti.",
       region: "Naannoo",
       tracks: "Karaalee barumsaa",
       badges: "Kuusaa baajii",
@@ -319,7 +319,7 @@ export const om: Messages = {
         "Irreechaa Guide": "Qajeelcha Irreechaa",
         "Lake Walker": "Deemsa haroo",
         "Bale Ranger": "Eegduu Baalee",
-        "Oda Explorer": "Qorataa Odaa",
+        "Odaa Explorer": "Qorataa Odaa",
         "Word Builder": "Jecha ijaaruu",
         Storyteller: "Seenaa himaa",
         "Trail Scout": "Qorataa karaa",

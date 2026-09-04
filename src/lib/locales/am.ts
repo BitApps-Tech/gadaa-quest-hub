@@ -2,9 +2,9 @@
 
 export const am: Messages = {
     brand: {
-      name: "Oda Play",
+      name: "Odaa Play",
       bureau: "የኦሮሚያ ባህልና ቱሪዝም ቢሮ",
-      opening: "Oda Play እየተከፈተ ነው…",
+      opening: "Odaa Play እየተከፈተ ነው…",
     },
     nav: {
       dashboard: "ዳሽቦርድ",
@@ -25,7 +25,7 @@ export const am: Messages = {
       phone: "ስልክ",
     },
     login: {
-      title: "Oda Play",
+      title: "Odaa Play",
       subtitle: "በኦሮሚያ ውስጥ ጉዞዎን ለመቀጠል በስልክ ቁጥርዎ ይግቡ።",
       phone: "ስልክ ቁጥር",
       phoneHint: "የኢትዮጵያ ሞባይል — 09 ወይም 07፣ ወይም +251።",
@@ -70,7 +70,7 @@ export const am: Messages = {
       modulesIntro: "ሦስት መስመሮች ከኦሮሚያ ባህልና ቱሪዝም ቢሮ።",
       heritageLibrary: "የቅርስ ቤተ-መጻሕፍት",
       source: "ይዘቱ ኦፊሴላዊውን የቢሮ ድረ-ገጽ ይከተላል",
-      playerTitle: "የOda አሳሽ",
+      playerTitle: "የOdaa አሳሽ",
       stats: {
         streak: { label: "ዕለታዊ ተከታታይ", value: "12 ቀናት", hint: "ከፍተኛ፦ 21 ቀናት" },
         puzzles: { label: "የቃላት እንቆቅልሾች", value: "47", hint: "ዛሬ +3" },
@@ -98,7 +98,7 @@ export const am: Messages = {
     progress: {
       eyebrow: "መለያ",
       title: "የእኔ እድገት",
-      intro: "በOda Play ውስጥ የእርስዎ ደረጃ፣ ተከታታይ ቀናት፣ መስመሮች እና ባጆች።",
+      intro: "በOdaa Play ውስጥ የእርስዎ ደረጃ፣ ተከታታይ ቀናት፣ መስመሮች እና ባጆች።",
       region: "ክልል",
       tracks: "የትምህርት መስመሮች",
       badges: "የባጅ ስብስብ",
@@ -320,7 +320,7 @@ export const am: Messages = {
         "Irreechaa Guide": "የIrreechaa መሪ",
         "Lake Walker": "የሐይቅ ተጓዥ",
         "Bale Ranger": "የባሌ ጠባቂ",
-        "Oda Explorer": "የOda አሳሽ",
+        "Odaa Explorer": "የOdaa አሳሽ",
         "Word Builder": "ቃል ገንቢ",
         Storyteller: "ታሪክ ተናጋሪ",
         "Trail Scout": "የመንገድ አሳሽ",

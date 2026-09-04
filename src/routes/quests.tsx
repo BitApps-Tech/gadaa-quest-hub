@@ -7,7 +7,7 @@ import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/quests")({
   head: () => ({
-    meta: [{ title: "Quests — Oda Play" }],
+    meta: [{ title: "Quests — Odaa Play" }],
   }),
   component: Quests,
 });
