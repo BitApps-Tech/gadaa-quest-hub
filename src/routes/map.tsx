@@ -16,7 +16,7 @@ import {
 
 export const Route = createFileRoute("/map")({
   head: () => ({
-    meta: [{ title: "Map — Gadaa Quest" }],
+    meta: [{ title: "Map — Oda Play" }],
   }),
   validateSearch: (search: Record<string, unknown>): { site?: string } => {
     const site = search["site"];

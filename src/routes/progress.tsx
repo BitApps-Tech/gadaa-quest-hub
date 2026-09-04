@@ -13,7 +13,7 @@ import { fill, useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/progress")({
   head: () => ({
-    meta: [{ title: "My progress — Gadaa Quest" }],
+    meta: [{ title: "My progress — Oda Play" }],
   }),
   component: ProgressPage,
 });

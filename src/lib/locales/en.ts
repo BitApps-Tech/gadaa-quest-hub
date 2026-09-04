@@ -2,9 +2,9 @@ import type { Messages } from "./types";
 
 export const en: Messages = {
     brand: {
-      name: "Gadaa Quest",
+      name: "Oda Play",
       bureau: "Oromia Culture & Tourism Bureau",
-      opening: "Opening Gadaa Quest…",
+      opening: "Opening Oda Play…",
     },
     nav: {
       dashboard: "Dashboard",
@@ -25,7 +25,7 @@ export const en: Messages = {
       phone: "Phone",
     },
     login: {
-      title: "Gadaa Quest",
+      title: "Oda Play",
       subtitle: "Sign in with your phone number to continue your journey through Oromia.",
       phone: "Phone number",
       phoneHint: "Ethiopian mobile — 09 or +251.",
@@ -98,7 +98,7 @@ export const en: Messages = {
     progress: {
       eyebrow: "Account",
       title: "My progress",
-      intro: "Your level, streak, tracks and badges across Gadaa Quest.",
+      intro: "Your level, streak, tracks and badges across Oda Play.",
       region: "Region",
       tracks: "Learning tracks",
       badges: "Badge collection",

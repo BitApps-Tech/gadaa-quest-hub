@@ -5,7 +5,7 @@ import { fill, useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [{ title: "Gadaa Quest" }],
+    meta: [{ title: "Oda Play" }],
   }),
   component: Dashboard,
 });

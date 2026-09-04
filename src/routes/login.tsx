@@ -9,7 +9,7 @@ import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
-    meta: [{ title: "Sign in — Gadaa Quest" }],
+    meta: [{ title: "Sign in — Oda Play" }],
   }),
   component: LoginPage,
 });

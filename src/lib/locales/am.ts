@@ -2,9 +2,9 @@
 
 export const am: Messages = {
     brand: {
-      name: "Gadaa Quest",
+      name: "Oda Play",
       bureau: "የኦሮሚያ ባህልና ቱሪዝም ቢሮ",
-      opening: "Gadaa Quest እየተከፈተ ነው…",
+      opening: "Oda Play እየተከፈተ ነው…",
     },
     nav: {
       dashboard: "ዳሽቦርድ",
@@ -25,7 +25,7 @@ export const am: Messages = {
       phone: "ስልክ",
     },
     login: {
-      title: "Gadaa Quest",
+      title: "Oda Play",
       subtitle: "በኦሮሚያ ውስጥ ጉዞዎን ለመቀጠል በስልክ ቁጥርዎ ይግቡ።",
       phone: "ስልክ ቁጥር",
       phoneHint: "የኢትዮጵያ ሞባይል — 09 ወይም 07፣ ወይም +251።",
@@ -98,7 +98,7 @@ export const am: Messages = {
     progress: {
       eyebrow: "መለያ",
       title: "የእኔ እድገት",
-      intro: "በGadaa Quest ውስጥ የእርስዎ ደረጃ፣ ተከታታይ ቀናት፣ መስመሮች እና ባጆች።",
+      intro: "በOda Play ውስጥ የእርስዎ ደረጃ፣ ተከታታይ ቀናት፣ መስመሮች እና ባጆች።",
       region: "ክልል",
       tracks: "የትምህርት መስመሮች",
       badges: "የባጅ ስብስብ",

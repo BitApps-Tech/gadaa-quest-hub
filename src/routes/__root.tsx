@@ -83,10 +83,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Gadaa Quest" },
+      { title: "Oda Play" },
       { name: "description", content: "Oromia cultural, language and tourism game" },
       { name: "author", content: "Oromia Culture and Tourism Bureau" },
-      { property: "og:title", content: "Gadaa Quest" },
+      { property: "og:title", content: "Oda Play" },
       { property: "og:description", content: "Explore Oromia. Level up." },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/odaa-logo.png" },
